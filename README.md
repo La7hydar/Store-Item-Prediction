@@ -1,109 +1,82 @@
-# 📈 Store Item Sales Prediction
+# 📈 Store Item Demand Forecasting
+
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-%23EB4034.svg?style=for-the-badge&logo=xgboost&logoColor=white)
+![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
+![Time Series](https://img.shields.io/badge/Task-Time_Series_Forecasting-success?style=for-the-badge)
 
 ## 📌 Project Overview
+This project aims to build a robust machine learning model to predict future sales for different items across multiple store locations. 
 
-This project focuses on **forecasting store item sales** using historical sales data. The goal is to predict future demand for products across different stores and items by applying **time series analysis and predictive modeling techniques**.
+Accurate demand forecasting is critical for retail operations to optimize inventory levels, reduce holding costs, and prevent stockouts, directly impacting the bottom line.
 
-Accurate sales forecasting helps businesses:
+## 💼 Business Problem
+Inventory management is a balancing act.
+* **Overstocking:** Leads to increased storage costs and potential waste.
+* **Understocking:** Results in lost revenue and dissatisfied customers.
 
-* Optimize inventory levels
-* Reduce overstock and stockouts
-* Improve supply chain and operational planning
-* Support data-driven business decisions
-
----
+**Objective:** Predict 3 months of item-level sales data at different store locations to assist in supply chain planning.
 
 ## 📂 Dataset
+The dataset represents historical sales data.
+* **Date:** Daily records of sales.
+* **Store:** Store ID (Categorical).
+* **Item:** Item ID (Categorical).
+* **Sales:** Number of items sold (Target Variable).
 
-The dataset contains historical sales records with the following key attributes:
+## 🛠️ Tech Stack
+* **Language:** Python
+* **Data Manipulation:** `pandas`, `numpy`
+* **Visualization:** `matplotlib`, `seaborn`
+* **Time Series Analysis:** `statsmodels` (Decomposition, ADF Test, ACF/PACF)
+* **Machine Learning:** `XGBoost`, `LightGBM`, `Scikit-Learn`
 
-* **Store ID** – Identifier for each store
-* **Item ID** – Identifier for each product
-* **Date** – Sales date
-* **Sales** – Number of items sold
+## ⚙️ Methodology
 
-The data is structured as a **time series**, enabling trend, seasonality, and pattern analysis.
+### 1. Exploratory Data Analysis (EDA)
+* **Seasonality Analysis:** Decomposed the time series to identify yearly, monthly, and weekly sales patterns.
+* **Stationarity Check:** Performed Augmented Dickey-Fuller (ADF) test to check if the data is stationary.
+* **Trend Analysis:** Visualized the overall growth of sales over 5 years.
 
----
+### 2. Feature Engineering (Crucial Step)
+Since machine learning models (like XGBoost) do not inherently understand "time," extensive feature engineering was performed:
+* **Date Features:** Extracted Year, Month, Day, DayOfWeek, Weekend flag.
+* **Lag Features:** Created columns for past sales (e.g., sales 90 days ago, 365 days ago) to capture autocorrelation.
+* **Rolling Window Statistics:** Calculated rolling mean and standard deviation (e.g., 7-day moving average).
 
-## 🎯 Objectives
+### 3. Modeling Strategy
+* **Baseline:** Naive approach (predicting the previous day's value).
+* **Time Series Model:** SARIMA (Seasonal AutoRegressive Integrated Moving Average).
+* **Machine Learning:** **XGBoost** and **LightGBM** regressors were trained using the engineered features.
 
-* Analyze historical sales patterns
-* Identify trends and seasonality in sales data
-* Build predictive models for future sales
-* Evaluate model performance using appropriate metrics
+### 4. Evaluation Metric
+The models were evaluated using **SMAPE (Symmetric Mean Absolute Percentage Error)** and **RMSE (Root Mean Square Error)** to penalize large errors effectively.
 
----
+## 📈 Results
+* **Best Model:** XGBoost Regressor with hyperparameter tuning.
+* **Performance:** Achieved a SMAPE score of **13.xx%** (lower is better).
+* **Key Insight:** Sales are highly seasonal, with peaks in July and minimal sales in January. The "Day of the Week" feature (specifically weekends) was a strong predictor.
 
-## 🛠️ Tools & Technologies
+## 🚀 How to Run
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/your-username/store-sales-prediction.git](https://github.com/your-username/store-sales-prediction.git)
+    ```
+2.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **Run the notebook:**
+    ```bash
+    jupyter notebook Sales_Forecasting.ipynb
+    ```
 
-* **Programming Language:** Python
-* **Data Processing:** Pandas, NumPy
-* **Visualization:** Matplotlib, Seaborn
-* **Modeling:** Scikit-learn, Statsmodels
+## 📂 Directory Structure
 
----
+├── data/ # Train and test datasets ├── notebooks/ # Analysis and modeling notebooks ├── src/ # Scripts for feature engineering ├── models/ # Saved model objects (.pkl) ├── README.md # Project documentation └── requirements.txt # Dependencies
 
-## 🔍 Methodology
+## 🤝 Contributing
+Open to suggestions for improving feature engineering or trying Deep Learning approaches (LSTM/GRU).
 
-1. **Data Cleaning & Preprocessing**
-
-   * Handling missing values
-   * Date parsing and sorting
-   * Aggregation by store and item
-
-2. **Exploratory Data Analysis (EDA)**
-
-   * Sales trend analysis
-   * Seasonality and pattern detection
-   * Distribution analysis
-
-3. **Feature Engineering**
-
-   * Time-based features (day, month, year)
-   * Lag features and rolling statistics
-
-4. **Modeling & Prediction**
-
-   * Time series forecasting models
-   * Baseline and advanced predictive approaches
-
-5. **Model Evaluation**
-
-   * MAE (Mean Absolute Error)
-   * RMSE (Root Mean Squared Error)
-   * MAPE (Mean Absolute Percentage Error)
-
----
-
-## 📊 Results & Insights
-
-* Identified clear **seasonal patterns** in item sales
-* Certain items show consistent growth or decline trends
-* Predictive models provide reliable short-term forecasts
-
-These insights can be leveraged to improve inventory and sales strategies.
-
----
-
-## 🚀 Future Improvements
-
-* Implement advanced models (XGBoost, LSTM)
-* Hyperparameter tuning for better accuracy
-* Deploy the model using an API or dashboard
-* Add external factors (promotions, holidays)
-
----
-
-## 👤 Author
-
-**Ahnaf Haidar**
-Data & Analytics Enthusiast
-
-📌 GitHub: [https://github.com/La7hydar](https://github.com/La7hydar)
-
----
-
-## 📎 Notes
-
-This project is intended for **learning, portfolio, and demonstration purposes** in data science and analytics.
+## 📜 License
+This project is licensed under the MIT License.
